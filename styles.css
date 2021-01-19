@@ -1,0 +1,118 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+
+
+body{
+    margin:0;
+    display: grid;
+    grid-template-columns: repeat(5, 6rem);
+    grid-template-rows: 3rem 12rem 12rem 12rem 3rem;
+    gap: 2rem;
+    cursor: pointer;
+    justify-content: center;
+    padding-top: 1rem;
+    background-image: url(https://media.giphy.com/media/3og0IMaynocLIk5VUQ/giphy.gif);
+    background-size: cover;
+    grid-template-areas: "gh gh gh gh gh" "cd cd cd cd cd" ". dk txt txt txt";
+}
+
+.game-header{
+    grid-area: gh;
+    font-size: 4rem;
+    font-family: "Copperplate";
+    text-align: center;
+    color: white;
+    user-select: none;
+}
+
+.deck{
+    grid-area: dk;
+    height: 100%;
+    width: 100%;
+    border: 2px solid black;
+    font-family: "Copperplate";
+    font-size: 3rem;
+    text-align: center;
+    padding-top: 4.5rem;
+    border-radius: .5rem;
+    color: white;
+    user-select: none;
+    background-image: url('../../Card Stock/card.jpg');
+    background-size: contain;
+}
+
+.text{
+    grid-area: txt;
+    font-size: 3rem;
+    color: white;
+    font-family: "Copperplate";
+    user-select: none;
+}
+
+.card{
+    grid-area: cd;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    border: 2px solid black;
+    border-radius: .5rem;
+    font-size: 3rem;
+    text-align: center;
+    padding: 3.5rem 0;
+    background-color: aliceblue;
+    user-select: none;
+}
+
+.card.red{
+    color: red;
+}
+
+.card.black{
+    color: black;
+}
+
+.card::before,
+.card::after {  
+    position: absolute;
+    content: attr(data-value);
+    font-size: 1.2rem;
+    user-select: none;
+}
+
+.card::before {
+    top: 0.5rem;
+    left: 0.5rem;
+}
+
+.card::after {
+    bottom: 0.5rem;
+    right: 0.5rem;
+    transform: rotate(180deg);
+    
+}
+
+.cover{
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    border: 2px solid black;
+    padding-top: 4.5rem;
+    border-radius: .5rem;
+    color: transparent;
+    user-select: none;
+    background-image: url('../../Card Stock/card.jpg');
+    background-size: contain;
+}
+
+.covercardred{
+    visibility: hidden;
+}
+
+.covercardblack{
+    visibility: hidden;
+}
+
