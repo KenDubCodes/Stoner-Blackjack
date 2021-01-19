@@ -39,7 +39,7 @@ body{
     border-radius: .5rem;
     color: white;
     user-select: none;
-    background-image: src = "Card Stock/card.jpg";
+    background-image: url("https://imgur.com/a/E2IdDLB");
     background-size: contain;
 }
 
@@ -104,7 +104,7 @@ body{
     border-radius: .5rem;
     color: transparent;
     user-select: none;
-    background-image: src = "Card Stock/card.jpg";
+    background-image: url("https://imgur.com/a/E2IdDLB");
     background-size: contain;
 }
 
