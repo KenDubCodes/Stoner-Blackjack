@@ -66,7 +66,7 @@ StandButton.appendChild(standbtn)
 
 //3. Define Variables
 
-var DrawDeck, hitcount, computerhitcount
+var DrawDeck, hitcount, computerhitcount, playeraceflip, computeraceflip
 
 var playerCard3, playerCard4, playerCard5
 var playerCard = [playerCard3, playerCard4, playerCard5]
@@ -82,7 +82,6 @@ var ComputerPoints = 0
 
 //4. Define Button Clicking Events
 
-
 StartButton.addEventListener("click", () => {
 
     startGame()
@@ -91,11 +90,13 @@ StartButton.addEventListener("click", () => {
 
 })
 
+
     //Click Hit Button to draw another card
 HitButton.addEventListener("click", () => {
 
     hit()
 })
+
 
     //Click Stand Button to wait for result
 StandButton.addEventListener("click", () => {
@@ -143,9 +144,12 @@ function startGame() {
     ComputerPoints = 0
     hitcount = 0
     computerhitcount = 0
+    playeraceflip = 0
+    computeraceflip = 0
 
     cleanBeforeRound()
 }
+
     //Clear all slots
 function cleanBeforeRound() {
     computerCardSlot1.innerHTML = ''
@@ -196,20 +200,37 @@ function flipCards() {
     if(CARD_VALUE_MAP[playerCard1.value] == 1 || CARD_VALUE_MAP[playerCard2.value] ==1){
         if (Points < 12) {
             Points += 10
+            playeraceflip++
         }
     }
+
+    if(CARD_VALUE_MAP[playerCard1.value] == 1 && CARD_VALUE_MAP[playerCard2.value] ==1){
+
+        Points -=10
+        playeraceflip++
+
+    }
+
 
     if (CARD_VALUE_MAP[computerCard1.value] == 1 || CARD_VALUE_MAP[computerCard2.value] == 1) {
         if (Computer < 12) {
             Computer += 10
+            computeraceflip++
         }
+    }
+
+    if (CARD_VALUE_MAP[computerCard1.value] == 1 && CARD_VALUE_MAP[computerCard2.value] == 1) {
+        
+        Computer -=10
+        computeraceflip++
+
     }
 
     //Update score for player and computer
     UpdatePlayerPoints(Points)
     UpdateComputerPoints(Computer)
 
-    console.log("Player = " + PlayerPoints, "Computer = ?")
+    console.log("Player = " + PlayerPoints, "Computer = ?", "playeraceflip= " + playeraceflip)
 
     //Player Win if obtain Blackjack
     if(PlayerPoints === 21) {
@@ -223,17 +244,75 @@ function flipCards() {
 
     //Update Points after any action, also consider the ACE situation
 function UpdatePlayerPoints(Points) {
+
     PlayerPoints += Points
-    if(PlayerPoints < 12 && Points == 1) {
+
+    //If ace has been drawn once
+    if (playeraceflip >= 1 && playeraceflip < 2) {
+        
+        // Change all Ace to 1 if ace is already drawn
+        if(Points == 1) {
+
+            PlayerPoints -= 10
+            playeraceflip++
+
+        // Change Ace to 1 if the total point > 21 after drawing
+        } else if (PlayerPoints > 21) {
+
+            PlayerPoints -= 10
+            playeraceflip++  
+        }
+
+    // If ace is drawn first time
+    } else if (Points == 1) {
+
         PlayerPoints += 10
+        playeraceflip++
+
+        //Change the ace to 1 if using ace as 11 will bust
+        if (PlayerPoints > 21) {
+
+            PlayerPoints -= 10
+            playeraceflip++
+
+        }
     }
 }
 
     //Update Points after any action, also consider the ACE situation
 function UpdateComputerPoints(Computer) {
+
     ComputerPoints += Computer
-    if(ComputerPoints < 12 && Computer == 1) {
+
+        //If ace has been drawn once
+    if (computeraceflip >= 1 && computeraceflip < 2) {
+        
+        // Change all Ace to 1 if ace is already drawn
+        if(Computer == 1) {
+
+            ComputerPoints -= 10
+            computeraceflip++
+
+        // Change Ace to 1 if the total point > 21 after drawing
+        } else if (ComputerPoints > 21) {
+
+            ComputerPoints -= 10
+            computeraceflip++  
+        }
+
+    // If ace is drawn first time
+    } else if (Computer == 1) {
+
         ComputerPoints += 10
+        computeraceflip++
+
+        //Change the ace to 1 if using ace as 11 will bust
+        if (ComputerPoints > 21) {
+
+            ComputerPoints -= 10
+            computeraceflip++
+
+        }
     }
 }
 
@@ -249,7 +328,7 @@ function hit() {
         //Add current card to Total Points before proceed
         let Points = CARD_VALUE_MAP[playerCard[hitcount].value]
         UpdatePlayerPoints(Points)
-        console.log("Player = " + PlayerPoints, "Computer = ?" )
+        console.log("Player = " + PlayerPoints, "Computer = ?", "playeraceflip = " + playeraceflip )
 
         CheckValue()
         hitcount++
